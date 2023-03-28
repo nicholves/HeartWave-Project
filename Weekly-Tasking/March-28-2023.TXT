@@ -1,0 +1,9 @@
+UML Diagrams - Nicholas, Stephen
+
+
+Use Cases - La Sam, Nate
+
+
+Meet in-person on Saturday April 1st 1:30 to discuss progress.
+
+Next time: QT-ui, Sequence Diagrams
