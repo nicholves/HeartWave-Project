@@ -1,0 +1,7 @@
+Sequence Diagrams: Nathanial, Stephen
+
+QT UI: Dondre
+
+DataSource class, Settings Class, Record class, HistoryManager class: Nicholas
+
+Next Meeting: Tuesday April 4th Online over
