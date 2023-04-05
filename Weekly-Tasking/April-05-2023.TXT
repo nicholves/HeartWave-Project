@@ -1,0 +1,12 @@
+
+Draw HRV graph: Dre 
+
+2 people MainWindow: Mahaise, Stephen
+
+Heartwave stuff like the update loop, Calculating coherance scores, generating summary: Nicholas
+
+Nick can help dre when he's done with his stuff.
+
+
+
+meet on Saturday April 8th at 11:30 online
