@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>images/HeartWaveDevice(v3).PNG</file>
+        <file>images/buttons/upButton.png</file>
+        <file>images/buttons/selectButton.png</file>
+        <file>images/buttons/rightButton.png</file>
+        <file>images/buttons/powerButton.png</file>
+        <file>images/buttons/leftButton.png</file>
+        <file>images/buttons/downButton.png</file>
+        <file>images/buttons/arrow-undo-up-left-svgrepo-com.svg</file>
+        <file>images/buttons/battery-twotone-70-svgrepo-com.svg</file>
+        <file>images/buttons/heart-rate-1-svgrepo-com.svg</file>
+    </qresource>
+</RCC>
