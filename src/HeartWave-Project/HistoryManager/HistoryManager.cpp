@@ -36,6 +36,7 @@ bool HistoryManager::writeRecordsToFile() {
     QDataStream stream(dynamic_cast<QIODevice*>(&file));
 
     for (const auto& r : m_records) {
+        stream << r.getID();
         stream << r.getTime();
         stream << r.getChallengeLevel();
         stream << r.getLowPercentage();
@@ -68,6 +69,7 @@ bool HistoryManager::readRecordsFromFile() {
     QDataStream stream(dynamic_cast<QIODevice*>(&file));
 
     while (!stream.atEnd()) {
+        QUuid id;
         QDateTime time;
         int challengeLevel;
         float lowPercentage;
@@ -77,6 +79,7 @@ bool HistoryManager::readRecordsFromFile() {
         int lengthOfSession;
         int achievementScore;
 
+        stream >> id;
         stream >> time;
         stream >> challengeLevel;
         stream >> lowPercentage;
@@ -86,7 +89,7 @@ bool HistoryManager::readRecordsFromFile() {
         stream >> lengthOfSession;
         stream >> achievementScore;
 
-        m_records.push_back(Record(time, challengeLevel, lowPercentage, medPercentage, highPercentage,
+        m_records.push_back(Record(id, time, challengeLevel, lowPercentage, medPercentage, highPercentage,
                             avgCoherance, lengthOfSession, achievementScore));
     }
 

@@ -2,14 +2,16 @@
 #define RECORD_H
 
 #include <QDateTime>
+#include <QUuid>
 
 class Record {
 public:
     // Constructor
-    Record(QDateTime time = QDateTime::currentDateTime(), int chlvl = 1, int low = 0, int med = 0,
+    Record(QUuid id = QUuid::createUuid(), QDateTime time = QDateTime::currentDateTime(), int chlvl = 1, int low = 0, int med = 0,
             int high = 0, int avgCoh = 0, int length = 0, int achiev = 0);
 
     // Getters
+    QUuid getID() const;
     QDateTime getTime() const;
     int getChallengeLevel() const;
     float getLowPercentage() const;
@@ -20,6 +22,7 @@ public:
     int getAchievementScore() const;
 
     // Setters
+    void setID(const QUuid& id);
     void setTime(const QDateTime &time);
     void setChallengeLevel(int level);
     void setLowPercentage(float percentage);
@@ -30,6 +33,7 @@ public:
     void setAchievementScore(int score);
 
 private:
+    QUuid sessionID;
     QDateTime m_time;
     int m_challengeLevel;
     float m_lowPercentage;
