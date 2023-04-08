@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+using namespace std;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -34,7 +36,7 @@ private:
     void setDurationValue(float);
     void setAchievementScore(float);
     void updateBatteryLvl(float);
-    bool drawHRVGraph(Vector<Pair<Float,Float>>);
+    bool drawHRVGraph(vector<pair<float,float>>);
     bool setBreathLightPercentage(float);
 
 private slots:

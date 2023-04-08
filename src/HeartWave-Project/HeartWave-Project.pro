@@ -26,16 +26,14 @@ SOURCES += \
     DataSource/DataSource.cpp \
     HistoryManager/HistoryManager.cpp \
     Record/Record.cpp \
-    Settings/Settings.cpp \
-    qcustomplot.cpp
+    Settings/Settings.cpp
 
 HEADERS += \
     mainwindow.h \
     DataSource/DataSource.h \
     HistoryManager/HistoryManager.h \
     Record/Record.h \
-    Settings/Settings.h \
-    qcustomplot.h
+    Settings/Settings.h
 
 FORMS += \
     mainwindow.ui
