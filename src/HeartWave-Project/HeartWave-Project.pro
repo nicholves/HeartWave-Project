@@ -1,6 +1,6 @@
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 CONFIG += c++11
 CONFIG += console
@@ -9,6 +9,10 @@ CONFIG += console
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
+
+INCLUDEPATH += $$PWD
+SOURCES += $$PWD/qcustomplot.cpp
+HEADERS += $$PWD/qcustomplot.h
 DEFINES += QT_DEPRECATED_WARNINGS
 
 # You can also make your code fail to compile if it uses deprecated APIs.
@@ -22,14 +26,16 @@ SOURCES += \
     DataSource/DataSource.cpp \
     HistoryManager/HistoryManager.cpp \
     Record/Record.cpp \
-    Settings/Settings.cpp
+    Settings/Settings.cpp \
+    qcustomplot.cpp
 
 HEADERS += \
     mainwindow.h \
     DataSource/DataSource.h \
     HistoryManager/HistoryManager.h \
     Record/Record.h \
-    Settings/Settings.h
+    Settings/Settings.h \
+    qcustomplot.h
 
 FORMS += \
     mainwindow.ui
