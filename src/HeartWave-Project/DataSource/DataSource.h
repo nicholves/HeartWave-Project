@@ -28,6 +28,7 @@ public:
     float getAmplitude() const;
     float getProgress() const;
     float getTranslation() const;
+    float getWorryModifier() const;
 
     // Setters
     void setPeriod(float period);
@@ -43,6 +44,8 @@ private:
     float m_amplitude;
     float m_progress;
     float m_translation; // The translation up of the sin wave
+
+    float m_modifNum = MODIF_MAX;
 };
 
 #endif // DATASOURCE_H

@@ -79,3 +79,7 @@ void DataSource::setTranslation(float translation)
 {
     m_translation = translation;
 }
+
+float DataSource::getWorryModifier() const {
+    return m_modifNum;
+}

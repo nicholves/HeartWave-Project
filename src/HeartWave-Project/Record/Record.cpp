@@ -1,8 +1,9 @@
 #include "Record.h"
 
 // Constructor
-Record::Record(QDateTime time, int chlvl, int low, int med,
+Record::Record(QUuid id, QDateTime time, int chlvl, int low, int med,
         int high, int avgCoh, int length, int achiev) :
+    sessionID(id),
     m_time(time),
     m_challengeLevel(chlvl),
     m_lowPercentage(low),
@@ -15,6 +16,11 @@ Record::Record(QDateTime time, int chlvl, int low, int med,
 }
 
 // Getters
+QUuid Record::getID() const
+{
+    return sessionID;
+}
+
 QDateTime Record::getTime() const
 {
     return m_time;
@@ -56,6 +62,11 @@ int Record::getAchievementScore() const
 }
 
 // Setters
+void Record::setID(const QUuid& id)
+{
+    sessionID = id;
+}
+
 void Record::setTime(const QDateTime &time)
 {
     m_time = time;

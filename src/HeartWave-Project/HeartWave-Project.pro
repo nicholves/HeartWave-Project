@@ -21,6 +21,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    HeartWave/HeartWave.cpp \
     main.cpp \
     mainwindow.cpp \
     DataSource/DataSource.cpp \
@@ -29,6 +30,7 @@ SOURCES += \
     Settings/Settings.cpp
 
 HEADERS += \
+    HeartWave/HeartWave.h \
     mainwindow.h \
     DataSource/DataSource.h \
     HistoryManager/HistoryManager.h \
