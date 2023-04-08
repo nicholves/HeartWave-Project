@@ -22,14 +22,16 @@ SOURCES += \
     DataSource/DataSource.cpp \
     HistoryManager/HistoryManager.cpp \
     Record/Record.cpp \
-    Settings/Settings.cpp
+    Settings/Settings.cpp \
+    menu.cpp
 
 HEADERS += \
     mainwindow.h \
     DataSource/DataSource.h \
     HistoryManager/HistoryManager.h \
     Record/Record.h \
-    Settings/Settings.h
+    Settings/Settings.h \
+    menu.h
 
 FORMS += \
     mainwindow.ui

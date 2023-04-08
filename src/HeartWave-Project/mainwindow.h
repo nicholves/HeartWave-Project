@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "menu.h"
+#include "./Settings/Settings.h"
+#include <QListWidget>
+#include <vector>
+#include <utility>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,13 +21,23 @@ public:
     ~MainWindow();
 
 private:
+    Menu* masterMenu;
+    Menu* mainMenuOG;
+
     Ui::MainWindow *ui;
+    QListWidget *activeQListWidget;
+
+    Settings* setting;
+
+    bool powerStatus;
 
     int uiMode;
     int indexHighlighted;
     int lastUiMode;
 
-    void powerModeUpdated(bool);
+    void powerChange();
+    void initializeMainMenu(Menu*);
+    void powerModeUpdated();
     bool updateDisplay();
     void setRedLight(bool);
     void setBlueLight(bool);
@@ -32,7 +47,7 @@ private:
     void setDurationValue(float);
     void setAchievementScore(float);
     void updateBatteryLvl(float);
-    bool drawHRVGraph(Vector<Pair<Float,Float>>);
+    bool drawHRVGraph(std::vector<std::pair<float,float>>);
     bool setBreathLightPercentage(float);
 
 private slots:
@@ -40,11 +55,12 @@ private slots:
     void pushSelector();
     void goBack();
     bool goUp();
-    bool goUp();
     bool goDown();
     bool goLeft();
     bool goRight();
     void pushMenu();
+
+
 
 
 
