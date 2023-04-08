@@ -40,7 +40,6 @@ private slots:
     void pushSelector();
     void goBack();
     bool goUp();
-    bool goUp();
     bool goDown();
     bool goLeft();
     bool goRight();
