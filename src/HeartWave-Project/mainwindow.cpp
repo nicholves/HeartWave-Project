@@ -18,6 +18,39 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+//slots
+bool MainWindow::changeUiMode(int){
+
+}
+
+void MainWindow::pushSelector(){
+
+}
+
+void MainWindow::goBack(){
+
+}
+
+bool MainWindow::goUp(){
+
+}
+
+bool MainWindow::goDown(){
+
+}
+
+bool MainWindow::goLeft(){
+
+}
+
+bool MainWindow::goRight(){
+
+}
+
+void MainWindow::pushMenu(){
+
+}
 void MainWindow::makePlot()
 {
     // add two new graphs and set their look:
