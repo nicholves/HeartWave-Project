@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "HeartWave/HeartWave.h"
+
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -16,16 +18,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-private slots:
-    void makePlot();
-
-private:
-    Ui::MainWindow *ui;
-
-    int uiMode;
-    int indexHighlighted;
-    int lastUiMode;
-
     void powerModeUpdated(bool);
     bool updateDisplay();
     void setRedLight(bool);
@@ -39,6 +31,16 @@ private:
     bool drawHRVGraph(vector<pair<float,float>>);
     bool setBreathLightPercentage(float);
 
+private:
+    Ui::MainWindow *ui;
+
+    int uiMode;
+    int indexHighlighted;
+    int lastUiMode;
+    HeartWave hw;
+
+    qint64 lastUpdate = 0; // the last time we drew the graph
+
 private slots:
     bool changeUiMode(int);
     void pushSelector();
@@ -48,6 +50,7 @@ private slots:
     bool goLeft();
     bool goRight();
     void pushMenu();
+    void makePlot();
 
 
 

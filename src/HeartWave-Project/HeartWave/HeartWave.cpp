@@ -91,7 +91,7 @@ void HeartWave::update() {
 
     qint64 delta = QDateTime::currentMSecsSinceEpoch() - lastUpdate;
 
-    if (delta < 1000) { // one second
+    if (delta < 100) {
         return;
     } else {
         lastUpdate = QDateTime::currentMSecsSinceEpoch();
@@ -162,6 +162,10 @@ int HeartWave::getBattery() {
 
 std::vector<CoheranceEntry> HeartWave::getCoherances() {
     return coherances;
+}
+
+std::vector<std::pair<float, float>> HeartWave::getAmplitudes() const {
+    return amplitudes;
 }
 
 // setters

@@ -52,6 +52,7 @@ public:
     int getLength();
     int getBattery();
     std::vector<CoheranceEntry> getCoherances();
+    std::vector<std::pair<float, float>> getAmplitudes() const;
 
     // setters
     void setBeatDetected(bool b);
