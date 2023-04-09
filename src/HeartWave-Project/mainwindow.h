@@ -30,19 +30,23 @@ public:
     void updateBatteryLvl(float);
     bool drawHRVGraph(vector<pair<float,float>>);
     bool setBreathLightPercentage(float);
+    bool changeUiMode(int);
 
 private:
+    void connectSignals();
+
+
     Ui::MainWindow *ui;
 
     int uiMode;
     int indexHighlighted;
     int lastUiMode;
     HeartWave hw;
+    bool power = false;
 
     qint64 lastUpdate = 0; // the last time we drew the graph
 
 private slots:
-    bool changeUiMode(int);
     void pushSelector();
     void goBack();
     bool goUp();
@@ -50,6 +54,7 @@ private slots:
     bool goLeft();
     bool goRight();
     void pushMenu();
+    void pushPower();
     void makePlot();
 
 

@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     timer->start(10);
 
     connect(&this->hw, &HeartWave::readyToUpdateDisplay, this, &MainWindow::updateDisplay);
+
+    connectSignals();
 }
 
 MainWindow::~MainWindow()
@@ -25,6 +27,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::connectSignals() {
+    connect(ui->powerButton, &QPushButton::clicked, this, &MainWindow::pushPower);
+}
+
+void MainWindow::powerModeUpdated(bool b) {
+    power = b;
+}
 
 //slots
 bool MainWindow::changeUiMode(int){
@@ -33,6 +42,10 @@ bool MainWindow::changeUiMode(int){
 
 void MainWindow::pushSelector(){
 
+}
+
+void MainWindow::pushPower() {
+    powerModeUpdated(~power);
 }
 
 void MainWindow::goBack(){
