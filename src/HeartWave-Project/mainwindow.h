@@ -2,14 +2,24 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <iostream>
 
 #include "HeartWave/HeartWave.h"
 
 using namespace std;
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {class MainWindow;}
 QT_END_NAMESPACE
+
+enum MenuMode {
+    MainMenu,
+    GraphView,
+    SettingsView,
+    HistoryList,
+    HistoryEntry,
+    SummaryView
+};
 
 class MainWindow : public QMainWindow
 {
@@ -30,7 +40,9 @@ public:
     void updateBatteryLvl(float);
     bool drawHRVGraph(vector<pair<float,float>>);
     bool setBreathLightPercentage(float);
-    bool changeUiMode(int);
+    bool changeUiMode(MenuMode);
+    void updateMenu();
+    void updateLayers();
 
 private:
     void connectSignals();
@@ -38,9 +50,8 @@ private:
 
     Ui::MainWindow *ui;
 
-    int uiMode;
-    int indexHighlighted;
-    int lastUiMode;
+    MenuMode uiMode = MenuMode::MainMenu;
+    MenuMode lastUiMode;
     HeartWave hw;
     bool power = false;
 

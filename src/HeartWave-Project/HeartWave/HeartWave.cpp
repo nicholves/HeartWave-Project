@@ -22,10 +22,15 @@ void HeartWave::startSession() {
 }
 
 void HeartWave::stopSession() {
+    if (!beatDetected) {
+        return;
+    }
     beatDetected = false;
     Record r = generateSummary();
 
     hm.createRecord(r);
+    amplitudes.clear();
+    coherances.clear();
 }
 
 void HeartWave::deleteSession(QUuid sessionID) {
