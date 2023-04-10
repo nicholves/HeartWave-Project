@@ -18,8 +18,8 @@ public:
     float getMedPercentage() const;
     float getHighPercentage() const;
     float getAVGCoherance() const;
-    int getLengthOfSession() const;
-    int getAchievementScore() const;
+    float getLengthOfSession() const;
+    float getAchievementScore() const;
 
     // Setters
     void setID(const QUuid& id);
@@ -29,8 +29,8 @@ public:
     void setMedPercentage(float percentage);
     void setHighPercentage(float percentage);
     void setAVGCoherance(float coherence);
-    void setLengthOfSession(int length);
-    void setAchievementScore(int score);
+    void setLengthOfSession(float length);
+    void setAchievementScore(float score);
 
 private:
     QUuid sessionID;
@@ -40,7 +40,7 @@ private:
     float m_medPercentage;
     float m_highPercentage;
     float m_avgCoherance;
-    int m_lengthOfSession;
+    float m_lengthOfSession;
     int m_achievementScore;
 };
 

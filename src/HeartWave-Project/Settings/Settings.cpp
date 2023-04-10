@@ -2,7 +2,7 @@
 
 // Constructor
 Settings::Settings() :
-    m_challengeLevel(0),
+    m_challengeLevel(1),
     m_breathPace(0)
 {
 }

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "qcustomplot.h"
 #include "HeartWave/HeartWave.h"
+#include "Record/Record.h"
 
 #include <QTimer>
 
@@ -31,6 +32,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ui->menuList->setCurrentRow(0);
+
+
+    ui->summaryView->hide();
 }
 
 MainWindow::~MainWindow()
@@ -83,6 +87,12 @@ void MainWindow::pushSelector(){
     else if(uiMode == MenuMode::GraphView) {
         hw.stopSession();
         changeUiMode(MenuMode::SummaryView);
+        updateSummary();
+        updateDisplay();
+    }
+    else if (uiMode == MenuMode::SummaryView) {
+        changeUiMode(MenuMode::MainMenu);
+        updateDisplay();
     }
 }
 
@@ -154,21 +164,27 @@ void MainWindow::updateLayers() {
     switch (uiMode) {
     case MenuMode::GraphView:
         ui->menuList->hide();
+        ui->summaryView->hide();
         break;
     case MenuMode::MainMenu:
         ui->menuList->show();
+        ui->summaryView->hide();
         break;
     case MenuMode::SettingsView:
         ui->menuList->show();
+        ui->summaryView->hide();
         break;
     case MenuMode::HistoryList:
         ui->menuList->show();
+        ui->summaryView->hide();
         break;
     case MenuMode::HistoryEntry:
         ui->menuList->show();
+        ui->summaryView->hide();
         break;
     case MenuMode::SummaryView:
         ui->menuList->hide();
+        ui->summaryView->show();
         break;
     }
 }
@@ -220,6 +236,16 @@ void MainWindow::makePlot()
 
     if (delta >= 10) {
         ui->customPlot->replot();
+
+        ui->Achievemen_Int_Label->setNum(hw.getAchievementScore());
+        ui->Coherence_Int_Label->setNum(hw.getCurrentCoherance());
+
+        qint64 st = hw.getStartTime();
+        qint64 totalTime = QDateTime::currentMSecsSinceEpoch() - st;
+        double totalTimeD = (double)totalTime / 1000.0; // convertion from miliseconds to seconds
+
+        ui->length_Int_Label->setNum(totalTimeD);
+
         lastUpdate = QDateTime::currentMSecsSinceEpoch();
     }
 }
@@ -231,4 +257,31 @@ void MainWindow::updateMenu() {
     }
     auto test = ui->menuList->currentRow();
     ui->menuList->currentItem()->setBackground(QBrush(Qt::blue));
+}
+
+void MainWindow::updateSummary() {
+    ui->summaryView->clear();
+
+
+    Record record = hw.generateSummary();
+    string output = "Challenge Level: " + to_string(record.getChallengeLevel());
+    ui->summaryView->addItem(QString::fromStdString(output));
+
+    output = "Percentage in low coherance: " + to_string(record.getLowPercentage()) + "%";
+    ui->summaryView->addItem(QString::fromStdString(output));
+
+    output = "Percentage in medium coherance: " + to_string(record.getMedPercentage()) + "%";
+    ui->summaryView->addItem(QString::fromStdString(output));
+
+    output = "Percentage in high coherance: " + to_string(record.getHighPercentage()) + "%";
+    ui->summaryView->addItem(QString::fromStdString(output));
+
+    output = "Average Coherance: " + to_string(record.getAVGCoherance());
+    ui->summaryView->addItem(QString::fromStdString(output));
+
+    output = "Length of session: " + to_string(record.getLengthOfSession()) + " seconds";
+    ui->summaryView->addItem(QString::fromStdString(output));
+
+    output = "Achievement Score: " + to_string(record.getAchievementScore());
+    ui->summaryView->addItem(QString::fromStdString(output));
 }

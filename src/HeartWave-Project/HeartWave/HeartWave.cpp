@@ -15,10 +15,14 @@ CoheranceLevel coheranceNumToEnum(float c) {
 
 HeartWave::HeartWave() {
     sessionID = QUuid::createUuid();
+    startTime = QDateTime::currentMSecsSinceEpoch();
 }
 
 void HeartWave::startSession() {
+    amplitudes.clear();
+    coherances.clear();
     beatDetected = true;
+    startTime = QDateTime::currentMSecsSinceEpoch();
 }
 
 void HeartWave::stopSession() {
@@ -29,8 +33,6 @@ void HeartWave::stopSession() {
     Record r = generateSummary();
 
     hm.createRecord(r);
-    amplitudes.clear();
-    coherances.clear();
 }
 
 void HeartWave::deleteSession(QUuid sessionID) {
@@ -47,7 +49,12 @@ void HeartWave::deleteSession(QUuid sessionID) {
 
 Record HeartWave::generateSummary() {
     Record r(sessionID, QDateTime::currentDateTime(), settings.getChallengeLevel());
-    r.setLengthOfSession(length);
+
+    qint64 st = getStartTime();
+    qint64 totalTime = QDateTime::currentMSecsSinceEpoch() - st;
+    float totalTimeD = (float)totalTime / 1000.0f;
+
+    r.setLengthOfSession(totalTimeD);
     r.setAchievementScore(getAchievementScore());
 
 
@@ -151,6 +158,10 @@ float HeartWave::getCurrentCoherance() {
 // getters
 QUuid HeartWave::getID() {
     return sessionID;
+}
+
+qint64 HeartWave::getStartTime() {
+    return startTime;
 }
 
 bool HeartWave::beatIsDetected() {

@@ -76,8 +76,8 @@ bool HistoryManager::readRecordsFromFile() {
         float medPercentage;
         float highPercentage;
         float avgCoherance;
-        int lengthOfSession;
-        int achievementScore;
+        float lengthOfSession;
+        float achievementScore;
 
         stream >> id;
         stream >> time;

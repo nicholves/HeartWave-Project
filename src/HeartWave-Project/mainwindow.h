@@ -43,6 +43,7 @@ public:
     bool changeUiMode(MenuMode);
     void updateMenu();
     void updateLayers();
+    void updateSummary();
 
 private:
     void connectSignals();

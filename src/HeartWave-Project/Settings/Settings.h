@@ -15,7 +15,7 @@ public:
     void setBreathPace(float pace);
 
 private:
-    int m_challengeLevel;
+    int m_challengeLevel = 1;
     float m_breathPace;
 };
 

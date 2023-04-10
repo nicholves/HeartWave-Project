@@ -51,6 +51,7 @@ public:
     bool beatIsDetected();
     int getLength();
     int getBattery();
+    qint64 getStartTime();
     std::vector<CoheranceEntry> getCoherances();
     std::vector<std::pair<float, float>> getAmplitudes() const;
 
@@ -65,6 +66,7 @@ private:
     QUuid sessionID;
     bool beatDetected = false;
     int length = 0;
+    qint64 startTime;
     int batteryLvl = 100;
     std::vector<std::pair<float, float>> amplitudes;
     std::vector<CoheranceEntry> coherances;

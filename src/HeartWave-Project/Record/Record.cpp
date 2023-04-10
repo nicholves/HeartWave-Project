@@ -51,12 +51,12 @@ float Record::getAVGCoherance() const
     return m_avgCoherance;
 }
 
-int Record::getLengthOfSession() const
+float Record::getLengthOfSession() const
 {
     return m_lengthOfSession;
 }
 
-int Record::getAchievementScore() const
+float Record::getAchievementScore() const
 {
     return m_achievementScore;
 }
@@ -97,12 +97,12 @@ void Record::setAVGCoherance(float coherence)
     m_avgCoherance = coherence;
 }
 
-void Record::setLengthOfSession(int length)
+void Record::setLengthOfSession(float length)
 {
     m_lengthOfSession = length;
 }
 
-void Record::setAchievementScore(int score)
+void Record::setAchievementScore(float score)
 {
     m_achievementScore = score;
 }
