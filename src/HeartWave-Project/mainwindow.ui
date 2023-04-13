@@ -502,6 +502,19 @@ QPushButton:pressed {
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="batteryDeplete">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>580</y>
+      <width>101</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Deplete Battery</string>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>leftButton</zorder>
    <zorder>upButton</zorder>
@@ -523,6 +536,7 @@ QPushButton:pressed {
    <zorder>blocker</zorder>
    <zorder>label_2</zorder>
    <zorder>breathPacer</zorder>
+   <zorder>batteryDeplete</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

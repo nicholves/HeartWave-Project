@@ -48,6 +48,7 @@ public:
     void updateData(const Record& record);
     void updateSettings();
     void updateBreathPacer();
+    void depleteBattery();
 
 private:
     void connectSignals();

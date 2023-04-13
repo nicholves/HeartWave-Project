@@ -61,6 +61,7 @@ void MainWindow::connectSignals() {
    connect(ui->rightButton, &QPushButton::clicked, this, &MainWindow::goRight);
    connect(ui->selectButton, &QPushButton::clicked, this, &MainWindow::pushSelector);
    connect(ui->MenuButton, &QPushButton::clicked, this, &MainWindow::pushMenu);
+   connect(ui->batteryDeplete, &QPushButton::clicked, this, &MainWindow::depleteBattery);
 }
 
 void MainWindow::powerModeUpdated(bool b) {
@@ -150,6 +151,9 @@ void MainWindow::pushSelector(){
 }
 
 void MainWindow::pushPower() {
+    if (hw.getBattery() <= 0) {
+        return;
+    }
     powerModeUpdated(!power);
 }
 
@@ -246,10 +250,15 @@ void MainWindow::pushMenu(){
 }
 
 bool MainWindow::updateDisplay() {
+    if (hw.getBattery() <= 0) {
+        ui->blocker->show();
+    }
+
     if (!power) {
         ui->HRContact->setStyleSheet("image: url(:/new/prefix1/images/buttons/heart-rate-1-svgrepo-com.svg);");
         return false;
     }
+
 
     if (hw.beatIsDetected()) {
         ui->HRContact->setStyleSheet("image: url(:/new/prefix1/images/buttons/heart-rate-1-green-svgrepo-com.png);");
@@ -505,4 +514,10 @@ void MainWindow::updateBreathPacer() {
     // totalTimeD is where we are, pace is the period
 
     ui->breathPacer->move(xpos, 280);
+}
+
+void MainWindow::depleteBattery() {
+    hw.setBattery(0);
+    power = false;
+    updateDisplay();
 }
