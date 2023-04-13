@@ -99,7 +99,8 @@ bool HistoryManager::readRecordsFromFile() {
 }
 
 bool HistoryManager::wipeHistory() {
-    m_records.clear();
+    //m_records.clear();
+    m_records.erase(m_records.begin(), m_records.end());
     return true;
 }
 
@@ -114,6 +115,7 @@ bool HistoryManager::deleteSession(int sessionIndex) {
 }
 
 std::vector<Record> HistoryManager::getSessions() const {
+    auto test = m_records.size();
     return m_records;
 }
 

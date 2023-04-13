@@ -3,12 +3,15 @@
 
 #include <QDateTime>
 #include <QUuid>
+#include <QString>
 
 class Record {
 public:
     // Constructor
     Record(QUuid id = QUuid::createUuid(), QDateTime time = QDateTime::currentDateTime(), int chlvl = 1, int low = 0, int med = 0,
             int high = 0, int avgCoh = 0, int length = 0, int achiev = 0);
+
+    QString toString() const;
 
     // Getters
     QUuid getID() const;

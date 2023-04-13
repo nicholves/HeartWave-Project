@@ -153,6 +153,10 @@ float HeartWave::getCurrentCoherance() {
     return coherance;
 }
 
+HistoryManager& HeartWave::getHistoryManager() {
+    return hm;
+}
+
 
 
 // getters

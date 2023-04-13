@@ -44,6 +44,8 @@ public:
     void updateMenu();
     void updateLayers();
     void updateSummary();
+    void updateHistoryList();
+    void updateData(const Record& record);
 
 private:
     void connectSignals();
@@ -52,11 +54,12 @@ private:
     Ui::MainWindow *ui;
 
     MenuMode uiMode = MenuMode::MainMenu;
-    MenuMode lastUiMode;
+    MenuMode lastUiMode = MenuMode::MainMenu;
     HeartWave hw;
     bool power = false;
 
     qint64 lastUpdate = 0; // the last time we drew the graph
+    qint64 lastAchievementUpdate = 0;
 
 private slots:
     void pushSelector();

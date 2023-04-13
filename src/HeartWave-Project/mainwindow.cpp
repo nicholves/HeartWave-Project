@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(&this->hw, &HeartWave::readyToUpdateDisplay, this, &MainWindow::updateDisplay);
 
+
     connectSignals();
 
 
@@ -35,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ui->summaryView->hide();
+    ui->historyList->hide();
+    ui->historyDataView->hide();
 }
 
 MainWindow::~MainWindow()
@@ -64,7 +67,9 @@ void MainWindow::powerModeUpdated(bool b) {
 
 //slots
 bool MainWindow::changeUiMode(MenuMode m){
+    lastUiMode = uiMode;
     uiMode = m;
+    updateDisplay();
 }
 
 void MainWindow::pushSelector(){
@@ -79,10 +84,26 @@ void MainWindow::pushSelector(){
             changeUiMode(MenuMode::GraphView);
             hw.startSession();
         }
+
+        else if (content == "View History") {
+            changeUiMode(MenuMode::HistoryList);
+            updateHistoryList();
+        }
     }
     else if(uiMode == MenuMode::SettingsView) {
     }
     else if(uiMode == MenuMode::HistoryList) {
+        auto content = ui->historyList->currentItem()->text();
+
+        if (content == "Clear History") {
+            hw.getHistoryManager().wipeHistory();
+            updateHistoryList();
+        } else {
+            int index = ui->historyList->currentRow();
+            updateData(hw.getHistoryManager().getSessions()[index - 1]);
+            changeUiMode(MenuMode::HistoryEntry);
+            updateDisplay();
+        }
     }
     else if(uiMode == MenuMode::GraphView) {
         hw.stopSession();
@@ -94,6 +115,10 @@ void MainWindow::pushSelector(){
         changeUiMode(MenuMode::MainMenu);
         updateDisplay();
     }
+    else if (uiMode == MenuMode::HistoryEntry) {
+        changeUiMode(MenuMode::HistoryList);
+        updateHistoryList();
+    }
 }
 
 void MainWindow::pushPower() {
@@ -104,6 +129,8 @@ void MainWindow::goBack(){
     if (!power) {
         return;
     }
+    changeUiMode(lastUiMode);
+    updateDisplay();
 }
 
 bool MainWindow::goUp(){
@@ -111,11 +138,26 @@ bool MainWindow::goUp(){
         return false;
     }
 
-    int current = ui->menuList->currentRow();
-    if (current - 1 < 0) {
-        return false;
+    if (uiMode == MenuMode::MainMenu) {
+
+        int current = ui->menuList->currentRow();
+        if (current - 1 < 0) {
+            return false;
+        }
+        ui->menuList->setCurrentRow(current - 1);
+
+    } else if (uiMode == MenuMode::HistoryList) {
+
+        int current = ui->historyList->currentRow();
+        if (current - 1 < 0) {
+            return false;
+        }
+        ui->historyList->setCurrentRow(current - 1);
+
     }
-    ui->menuList->setCurrentRow(current - 1);
+
+
+
     updateDisplay();
     return true;
 }
@@ -125,11 +167,24 @@ bool MainWindow::goDown(){
         return false;
     }
 
-    int current = ui->menuList->currentRow();
-    if (current + 1 >= ui->menuList->count()) {
-        return false;
+    if (uiMode == MenuMode::MainMenu) {
+
+        int current = ui->menuList->currentRow();
+        if (current + 1 >= ui->menuList->count()) {
+            return false;
+        }
+        ui->menuList->setCurrentRow(current + 1);
+
+    } else if (uiMode == MenuMode::HistoryList) {
+
+        int current = ui->historyList->currentRow();
+        if (current + 1 >= ui->historyList->count()) {
+            return false;
+        }
+        ui->historyList->setCurrentRow(current + 1);
+
     }
-    ui->menuList->setCurrentRow(current + 1);
+
     updateDisplay();
     return true;
 }
@@ -150,7 +205,31 @@ void MainWindow::pushMenu(){
 
 bool MainWindow::updateDisplay() {
     if (!power) {
+        ui->HRContact->setStyleSheet("image: url(:/new/prefix1/images/buttons/heart-rate-1-svgrepo-com.svg);");
         return false;
+    }
+
+    if (hw.beatIsDetected()) {
+        ui->HRContact->setStyleSheet("image: url(:/new/prefix1/images/buttons/heart-rate-1-green-svgrepo-com.png);");
+    } else {
+        ui->HRContact->setStyleSheet("image: url(:/new/prefix1/images/buttons/heart-rate-1-svgrepo-com.svg);");
+    }
+
+    if (uiMode == MenuMode::GraphView) {
+        CoheranceLevel cl = coheranceNumToEnum(hw.getCurrentCoherance());
+
+        switch (cl) {
+        case CoheranceLevel::low:
+            ui->RGB_Indicator->setStyleSheet("background-color: rgb(255, 0, 0)");
+            break;
+        case CoheranceLevel::medium:
+            ui->RGB_Indicator->setStyleSheet("background-color: rgb(0, 0, 255)");
+            break;
+
+        case CoheranceLevel::high:
+            ui->RGB_Indicator->setStyleSheet("background-color: rgb(0, 255, 0)");
+            break;
+        }
     }
 
     updateMenu();
@@ -165,26 +244,38 @@ void MainWindow::updateLayers() {
     case MenuMode::GraphView:
         ui->menuList->hide();
         ui->summaryView->hide();
+        ui->historyList->hide();
+        ui->historyDataView->hide();
         break;
     case MenuMode::MainMenu:
         ui->menuList->show();
         ui->summaryView->hide();
+        ui->historyList->hide();
+        ui->historyDataView->hide();
         break;
     case MenuMode::SettingsView:
         ui->menuList->show();
         ui->summaryView->hide();
+        ui->historyList->hide();
+        ui->historyDataView->hide();
         break;
     case MenuMode::HistoryList:
-        ui->menuList->show();
+        ui->menuList->hide();
         ui->summaryView->hide();
+        ui->historyList->show();
+        ui->historyDataView->hide();
         break;
     case MenuMode::HistoryEntry:
-        ui->menuList->show();
+        ui->menuList->hide();
         ui->summaryView->hide();
+        ui->historyList->show();
+        ui->historyDataView->show();
         break;
     case MenuMode::SummaryView:
         ui->menuList->hide();
         ui->summaryView->show();
+        ui->historyList->hide();
+        ui->historyDataView->hide();
         break;
     }
 }
@@ -237,7 +328,7 @@ void MainWindow::makePlot()
     if (delta >= 10) {
         ui->customPlot->replot();
 
-        ui->Achievemen_Int_Label->setNum(hw.getAchievementScore());
+
         ui->Coherence_Int_Label->setNum(hw.getCurrentCoherance());
 
         qint64 st = hw.getStartTime();
@@ -247,6 +338,13 @@ void MainWindow::makePlot()
         ui->length_Int_Label->setNum(totalTimeD);
 
         lastUpdate = QDateTime::currentMSecsSinceEpoch();
+    }
+
+    delta = QDateTime::currentMSecsSinceEpoch() - lastAchievementUpdate;
+
+    if (delta >= 5000) {
+        ui->Achievemen_Int_Label->setNum(hw.getAchievementScore());
+        lastAchievementUpdate = QDateTime::currentMSecsSinceEpoch();
     }
 }
 
@@ -285,3 +383,44 @@ void MainWindow::updateSummary() {
     output = "Achievement Score: " + to_string(record.getAchievementScore());
     ui->summaryView->addItem(QString::fromStdString(output));
 }
+
+
+void MainWindow::updateHistoryList() {
+    ui->historyList->clear();
+
+    std::vector<Record> records = hw.getHistoryManager().getSessions();
+    ui->historyList->addItem(QString("Clear History"));
+
+    for (const auto& r : records) {
+        ui->historyList->addItem(r.toString());
+    }
+}
+
+void MainWindow::updateData(const Record& record) {
+    ui->historyDataView->clear();
+
+
+    string output = "Challenge Level: " + to_string(record.getChallengeLevel());
+    ui->historyDataView->addItem(QString::fromStdString(output));
+
+    output = "Percentage in low coherance: " + to_string(record.getLowPercentage()) + "%";
+    ui->historyDataView->addItem(QString::fromStdString(output));
+
+    output = "Percentage in medium coherance: " + to_string(record.getMedPercentage()) + "%";
+    ui->historyDataView->addItem(QString::fromStdString(output));
+
+    output = "Percentage in high coherance: " + to_string(record.getHighPercentage()) + "%";
+    ui->historyDataView->addItem(QString::fromStdString(output));
+
+    output = "Average Coherance: " + to_string(record.getAVGCoherance());
+    ui->historyDataView->addItem(QString::fromStdString(output));
+
+    output = "Length of session: " + to_string(record.getLengthOfSession()) + " seconds";
+    ui->historyDataView->addItem(QString::fromStdString(output));
+
+    output = "Achievement Score: " + to_string(record.getAchievementScore());
+    ui->historyDataView->addItem(QString::fromStdString(output));
+}
+
+
+

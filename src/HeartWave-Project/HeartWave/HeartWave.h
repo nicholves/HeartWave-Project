@@ -54,6 +54,7 @@ public:
     qint64 getStartTime();
     std::vector<CoheranceEntry> getCoherances();
     std::vector<std::pair<float, float>> getAmplitudes() const;
+    HistoryManager& getHistoryManager();
 
     // setters
     void setBeatDetected(bool b);

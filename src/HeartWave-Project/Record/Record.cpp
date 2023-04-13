@@ -15,6 +15,10 @@ Record::Record(QUuid id, QDateTime time, int chlvl, int low, int med,
 {
 }
 
+QString Record::toString() const {
+    return m_time.toString(QString("dd.MM.yyyy"));
+}
+
 // Getters
 QUuid Record::getID() const
 {
