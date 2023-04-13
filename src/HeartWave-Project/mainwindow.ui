@@ -388,8 +388,8 @@ QPushButton:pressed {
     </property>
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>120</y>
+      <x>510</x>
+      <y>100</y>
       <width>291</width>
       <height>171</height>
      </rect>
@@ -411,10 +411,10 @@ QPushButton:pressed {
    <widget class="QListWidget" name="summaryView">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>340</y>
-      <width>291</width>
-      <height>85</height>
+      <x>520</x>
+      <y>108</y>
+      <width>275</width>
+      <height>50</height>
      </rect>
     </property>
     <property name="currentRow">
@@ -440,18 +440,18 @@ QPushButton:pressed {
    <widget class="QListWidget" name="historyList">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>40</y>
-      <width>256</width>
-      <height>192</height>
+      <x>510</x>
+      <y>100</y>
+      <width>291</width>
+      <height>171</height>
      </rect>
     </property>
    </widget>
    <widget class="QListWidget" name="historyDataView">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>440</y>
+      <x>510</x>
+      <y>100</y>
       <width>291</width>
       <height>85</height>
      </rect>
@@ -460,6 +460,35 @@ QPushButton:pressed {
      <number>-1</number>
     </property>
    </widget>
+   <widget class="QListWidget" name="settingsList">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>100</y>
+      <width>291</width>
+      <height>171</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>label</zorder>
+   <zorder>leftButton</zorder>
+   <zorder>upButton</zorder>
+   <zorder>downButton</zorder>
+   <zorder>rightButton</zorder>
+   <zorder>selectButton</zorder>
+   <zorder>powerButton</zorder>
+   <zorder>frame_2</zorder>
+   <zorder>Battery</zorder>
+   <zorder>HRContact</zorder>
+   <zorder>MenuButton</zorder>
+   <zorder>customPlot</zorder>
+   <zorder>menuList</zorder>
+   <zorder>summaryView</zorder>
+   <zorder>RGB_Indicator</zorder>
+   <zorder>historyList</zorder>
+   <zorder>historyDataView</zorder>
+   <zorder>settingsList</zorder>
+   <zorder>blocker</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

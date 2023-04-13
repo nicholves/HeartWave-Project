@@ -55,6 +55,7 @@ public:
     std::vector<CoheranceEntry> getCoherances();
     std::vector<std::pair<float, float>> getAmplitudes() const;
     HistoryManager& getHistoryManager();
+    Settings& getSettings();
 
     // setters
     void setBeatDetected(bool b);

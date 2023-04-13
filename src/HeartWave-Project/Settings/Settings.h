@@ -8,15 +8,15 @@ public:
 
     // Getters
     int getChallengeLevel() const;
-    float getBreathPace() const;
+    int getBreathPace() const;
 
     // Setters
     void setChallengeLevel(int level);
-    void setBreathPace(float pace);
+    void setBreathPace(int pace);
 
 private:
     int m_challengeLevel = 1;
-    float m_breathPace;
+    int m_breathPace = 30.0f;
 };
 
 #endif // SETTINGS_H

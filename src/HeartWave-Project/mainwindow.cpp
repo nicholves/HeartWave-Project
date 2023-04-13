@@ -33,11 +33,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     ui->menuList->setCurrentRow(0);
+    ui->historyList->setCurrentRow(0);
+    ui->settingsList->setCurrentRow(0);
 
 
     ui->summaryView->hide();
     ui->historyList->hide();
     ui->historyDataView->hide();
+    ui->settingsList->hide();
 }
 
 MainWindow::~MainWindow()
@@ -70,6 +73,9 @@ bool MainWindow::changeUiMode(MenuMode m){
     lastUiMode = uiMode;
     uiMode = m;
     updateDisplay();
+    ui->menuList->setCurrentRow(0);
+    ui->historyList->setCurrentRow(0);
+    ui->settingsList->setCurrentRow(0);
 }
 
 void MainWindow::pushSelector(){
@@ -89,8 +95,26 @@ void MainWindow::pushSelector(){
             changeUiMode(MenuMode::HistoryList);
             updateHistoryList();
         }
+
+        else if (content == "Settings") {
+            changeUiMode(MenuMode::SettingsView);
+            updateDisplay();
+            updateSettings();
+        }
     }
     else if(uiMode == MenuMode::SettingsView) {
+        auto text = ui->settingsList->currentItem()->text().toStdString();
+        auto content = text.substr(0, 6);
+
+
+        Settings& settings = hw.getSettings();
+        if (content == "Challe") {
+            settings.setChallengeLevel(((settings.getChallengeLevel()) % 4) + 1);
+        } else if (content == "Breath") {
+            settings.setBreathPace(((settings.getBreathPace()) % 30) + 1);
+        }
+
+        updateSettings();
     }
     else if(uiMode == MenuMode::HistoryList) {
         auto content = ui->historyList->currentItem()->text();
@@ -155,6 +179,13 @@ bool MainWindow::goUp(){
         ui->historyList->setCurrentRow(current - 1);
 
     }
+    else if (uiMode == MenuMode::SettingsView) {
+        int current = ui->settingsList->currentRow();
+        if (current - 1 < 0) {
+            return false;
+        }
+        ui->settingsList->setCurrentRow(current - 1);
+    }
 
 
 
@@ -183,6 +214,13 @@ bool MainWindow::goDown(){
         }
         ui->historyList->setCurrentRow(current + 1);
 
+    }
+    else if (uiMode == MenuMode::SettingsView) {
+        int current = ui->settingsList->currentRow();
+        if (current + 1 >= ui->settingsList->count()) {
+            return false;
+        }
+        ui->settingsList->setCurrentRow(current + 1);
     }
 
     updateDisplay();
@@ -246,36 +284,42 @@ void MainWindow::updateLayers() {
         ui->summaryView->hide();
         ui->historyList->hide();
         ui->historyDataView->hide();
+        ui->settingsList->hide();
         break;
     case MenuMode::MainMenu:
         ui->menuList->show();
         ui->summaryView->hide();
         ui->historyList->hide();
         ui->historyDataView->hide();
+        ui->settingsList->hide();
         break;
     case MenuMode::SettingsView:
-        ui->menuList->show();
+        ui->menuList->hide();
         ui->summaryView->hide();
         ui->historyList->hide();
         ui->historyDataView->hide();
+        ui->settingsList->show();
         break;
     case MenuMode::HistoryList:
         ui->menuList->hide();
         ui->summaryView->hide();
         ui->historyList->show();
         ui->historyDataView->hide();
+        ui->settingsList->hide();
         break;
     case MenuMode::HistoryEntry:
         ui->menuList->hide();
         ui->summaryView->hide();
         ui->historyList->show();
         ui->historyDataView->show();
+        ui->settingsList->hide();
         break;
     case MenuMode::SummaryView:
         ui->menuList->hide();
         ui->summaryView->show();
         ui->historyList->hide();
         ui->historyDataView->hide();
+        ui->settingsList->hide();
         break;
     }
 }
@@ -394,6 +438,7 @@ void MainWindow::updateHistoryList() {
     for (const auto& r : records) {
         ui->historyList->addItem(r.toString());
     }
+    ui->historyList->setCurrentRow(0);
 }
 
 void MainWindow::updateData(const Record& record) {
@@ -422,5 +467,19 @@ void MainWindow::updateData(const Record& record) {
     ui->historyDataView->addItem(QString::fromStdString(output));
 }
 
+void MainWindow::updateSettings() {
+    int lastRow = ui->settingsList->currentRow();
+    ui->settingsList->clear();
+
+    Settings& settings = hw.getSettings();
+
+    string output = "Challenge: " + to_string(settings.getChallengeLevel());
+    ui->settingsList->addItem(QString::fromStdString(output));
+
+    output = "Breath Pace: " + to_string(settings.getBreathPace());
+    ui->settingsList->addItem(QString::fromStdString(output));
+
+    ui->settingsList->setCurrentRow(lastRow);
+}
 
 

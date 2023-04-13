@@ -157,6 +157,9 @@ HistoryManager& HeartWave::getHistoryManager() {
     return hm;
 }
 
+Settings& HeartWave::getSettings() {
+    return settings;
+}
 
 
 // getters

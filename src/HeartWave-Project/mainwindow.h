@@ -46,6 +46,7 @@ public:
     void updateSummary();
     void updateHistoryList();
     void updateData(const Record& record);
+    void updateSettings();
 
 private:
     void connectSignals();
