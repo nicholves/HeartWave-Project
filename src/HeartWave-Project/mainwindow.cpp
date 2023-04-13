@@ -5,7 +5,11 @@
 #include "Record/Record.h"
 
 #include <QTimer>
+#include <cmath>
 
+#ifndef PI
+#define PI M_PI
+#endif
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -275,6 +279,8 @@ bool MainWindow::updateDisplay() {
 
 
     makePlot();
+
+    updateBreathPacer();
 }
 
 void MainWindow::updateLayers() {
@@ -482,4 +488,21 @@ void MainWindow::updateSettings() {
     ui->settingsList->setCurrentRow(lastRow);
 }
 
+void MainWindow::updateBreathPacer() {
+    if (uiMode != MenuMode::GraphView) {
+        ui->breathPacer->move(505, 280);
+        return;
+    }
 
+    qint64 st = hw.getStartTime();
+    qint64 totalTime = QDateTime::currentMSecsSinceEpoch() - st;
+    double totalTimeD = (double)totalTime / 1000.0; // convertion from miliseconds to seconds
+
+    double pace = 1 / (double)hw.getSettings().getBreathPace();
+
+    // using same equation from data source class
+    int xpos = 140 * sin(2 * PI * totalTimeD * pace - (PI / 2)) + 645; // 645 is 140 + start pos, 140 is half 280 the length of the bar - 20 (legnth of cube)
+    // totalTimeD is where we are, pace is the period
+
+    ui->breathPacer->move(xpos, 280);
+}

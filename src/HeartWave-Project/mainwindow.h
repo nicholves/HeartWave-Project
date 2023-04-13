@@ -47,6 +47,7 @@ public:
     void updateHistoryList();
     void updateData(const Record& record);
     void updateSettings();
+    void updateBreathPacer();
 
 private:
     void connectSignals();
