@@ -62,6 +62,7 @@ void MainWindow::connectSignals() {
    connect(ui->selectButton, &QPushButton::clicked, this, &MainWindow::pushSelector);
    connect(ui->MenuButton, &QPushButton::clicked, this, &MainWindow::pushMenu);
    connect(ui->batteryDeplete, &QPushButton::clicked, this, &MainWindow::depleteBattery);
+   connect(ui->signalDC, &QPushButton::clicked, this, &MainWindow::disconnectSignal);
 }
 
 void MainWindow::powerModeUpdated(bool b) {
@@ -519,5 +520,10 @@ void MainWindow::updateBreathPacer() {
 void MainWindow::depleteBattery() {
     hw.setBattery(0);
     power = false;
+    updateDisplay();
+}
+
+void MainWindow::disconnectSignal() {
+    hw.setBeatDetected(false);
     updateDisplay();
 }

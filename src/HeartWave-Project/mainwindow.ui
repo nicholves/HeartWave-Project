@@ -515,6 +515,19 @@ QPushButton:pressed {
      <string>Deplete Battery</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="signalDC">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>580</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Signal Disconnect</string>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>leftButton</zorder>
    <zorder>upButton</zorder>
@@ -537,6 +550,7 @@ QPushButton:pressed {
    <zorder>label_2</zorder>
    <zorder>breathPacer</zorder>
    <zorder>batteryDeplete</zorder>
+   <zorder>signalDC</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

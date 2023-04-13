@@ -49,6 +49,7 @@ public:
     void updateSettings();
     void updateBreathPacer();
     void depleteBattery();
+    void disconnectSignal();
 
 private:
     void connectSignals();
