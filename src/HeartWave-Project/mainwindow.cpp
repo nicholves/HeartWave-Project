@@ -237,11 +237,43 @@ bool MainWindow::goDown(){
 }
 
 bool MainWindow::goLeft(){
+    if (uiMode == MenuMode::SettingsView) {
+        auto text = ui->settingsList->currentItem()->text().toStdString();
+        auto content = text.substr(0, 6);
 
+
+        Settings& settings = hw.getSettings();
+        if (content == "Challe") {
+            settings.setChallengeLevel(settings.getChallengeLevel() - 1);
+            if (settings.getChallengeLevel() <= 0) {
+                settings.setChallengeLevel(4);
+            }
+        } else if (content == "Breath") {
+            settings.setBreathPace(settings.getBreathPace() - 1);
+            if (settings.getBreathPace() <= 0) {
+                settings.setBreathPace(30);
+            }
+        }
+
+        updateSettings();
+    }
 }
 
 bool MainWindow::goRight(){
+    if (uiMode == MenuMode::SettingsView) {
+        auto text = ui->settingsList->currentItem()->text().toStdString();
+        auto content = text.substr(0, 6);
 
+
+        Settings& settings = hw.getSettings();
+        if (content == "Challe") {
+            settings.setChallengeLevel(((settings.getChallengeLevel()) % 4) + 1);
+        } else if (content == "Breath") {
+            settings.setBreathPace(((settings.getBreathPace()) % 30) + 1);
+        }
+
+        updateSettings();
+    }
 }
 
 void MainWindow::pushMenu(){
@@ -495,7 +527,12 @@ void MainWindow::updateSettings() {
     output = "Breath Pace: " + to_string(settings.getBreathPace());
     ui->settingsList->addItem(QString::fromStdString(output));
 
-    ui->settingsList->setCurrentRow(lastRow);
+    if (lastRow >= 0) {
+        ui->settingsList->setCurrentRow(lastRow);
+    }
+    else {
+        ui->settingsList->setCurrentRow(0);
+    }
 }
 
 void MainWindow::updateBreathPacer() {
