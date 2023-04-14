@@ -5,16 +5,16 @@
 #define DEFAULT_AMPLITUDE   20
 #define DEFAULT_TRANSLATION 70
 
-#define WORRYLVL            2
+#define WORRYLVL            0
 
 #if WORRYLVL == 0
-#define MODIF_MAX           5.5f
+#define MODIF_MAX           5.0f
 
 #elif WORRYLVL == 1
-#define MODIF_MAX           10.5f
+#define MODIF_MAX           10.0f
 
 #elif WORRYLVL == 2
-#define MODIF_MAX           15.5f
+#define MODIF_MAX           15.0f
 
 #endif
 

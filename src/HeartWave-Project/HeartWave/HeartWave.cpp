@@ -5,11 +5,11 @@
 
 CoheranceLevel coheranceNumToEnum(float c) {
     if (c <= 5.0f) {
-        return CoheranceLevel::high;
+        return CoheranceLevel::low;
     } else if (c <= 10.0f) {
         return CoheranceLevel::medium;
     } else {
-        return CoheranceLevel::low;
+        return CoheranceLevel::high;
     }
 }
 
@@ -144,11 +144,23 @@ float HeartWave::getAchievementScore() {
 }
 
 float HeartWave::getCurrentCoherance() {
-    float wm = ds.getWorryModifier();
+    float wm;
+    if (ds.getWorryModifier() == 5) {
+        wm = 15;
+    } else if (ds.getWorryModifier() == 10) {
+        wm = 10;
+    } else {
+        wm = 5;
+    }
 
     srand(time(NULL));
 
-    float coherance = (float) rand() / (RAND_MAX / ds.getWorryModifier());
+
+    float coherance = (float) rand() / (RAND_MAX / wm) + 4;
+
+    if (coherance >= 15.0f) {
+        coherance = 15.0f;
+    }
 
     return coherance;
 }
